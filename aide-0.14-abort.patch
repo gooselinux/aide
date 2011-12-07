@@ -1,0 +1,97 @@
+diff -urp aide.orig/src/commandconf.c aide/src/commandconf.c
+--- aide.orig/src/commandconf.c	2010-04-28 11:17:07.000000000 -0400
++++ aide/src/commandconf.c	2010-04-28 11:19:12.000000000 -0400
+@@ -216,7 +216,7 @@ int conf_input_wrapper(char* buf, int ma
+ 	    MHASH_FAILED){
+ 	  error(0, "mhash_hmac_init() failed for %i for config check. Aborting\n",
+ 		conf->confhmactype);
+-	  abort();
++	  exit(EXIT_FAILURE);
+ 	}
+       } else {
+ 	conf->do_configmd=0;
+@@ -341,7 +341,7 @@ int db_input_wrapper(char* buf, int max_
+   if(c==-1) {
+     int xx;
+ 	  error(0,"Error reading gzipped file: %s\n",gzerror(*db_gzp,&xx));
+-    abort();
++    exit(EXIT_FAILURE);
+   }
+       }else {
+ 	/* False alarm */
+@@ -377,7 +377,7 @@ int db_input_wrapper(char* buf, int max_
+ 			     mhash_get_hash_pblock(conf->dbhmactype)))==
+ 	    MHASH_FAILED){
+ 	  error(0, "mhash_hmac_init() failed for db check. Aborting\n");
+-	  abort();
++	  exit(EXIT_FAILURE);
+ 	}
+       } else {
+ 	*domd=0;
+diff -urp aide.orig/src/compare_db.c aide/src/compare_db.c
+--- aide.orig/src/compare_db.c	2010-04-28 11:17:07.000000000 -0400
++++ aide/src/compare_db.c	2010-04-28 11:20:15.000000000 -0400
+@@ -1025,7 +1025,7 @@ void init_rxlst(list* rxlst)
+     
+     if (data==NULL){
+       error(0,_("Not enough memory for regexpr compile... exiting..\n"));
+-      abort();
++      exit(EXIT_FAILURE);
+     }
+     
+     strcpy(data+1,((rx_rule*)r->data)->rx);
+diff -urp aide.orig/src/db.c aide/src/db.c
+--- aide.orig/src/db.c	2010-04-28 11:17:07.000000000 -0400
++++ aide/src/db.c	2010-04-28 11:21:02.000000000 -0400
+@@ -382,7 +382,7 @@ db_line* db_char2line(char** ss,int db){
+ 	line->filename=strdup(ss[(*db_order)[i]]);
+       } else {
+ 	error(0,"db_char2line():Error while reading database\n");
+-	abort();
++	exit(EXIT_FAILURE);
+       }
+       break;
+     }
+diff -urp aide.orig/src/list.c aide/src/list.c
+--- aide.orig/src/list.c	2010-04-28 11:17:07.000000000 -0400
++++ aide/src/list.c	2010-04-28 11:22:45.000000000 -0400
+@@ -47,7 +47,7 @@
+ 
+ 
+ /* 
+- * Some way to handle mallocs failure would be nice. Now it say abort().
++ * Some way to handle mallocs failure would be nice.
+  */
+ 
+ list* list_append(list* listp,void*data)
+@@ -57,7 +57,7 @@ list* list_append(list* listp,void*data)
+ 
+   if (newitem==NULL) {
+     error(0,"Not enough memory to add a new item to list.\n");
+-    abort();
++    exit(EXIT_FAILURE);
+   }
+   
+   if(listp==NULL){
+@@ -65,7 +65,7 @@ list* list_append(list* listp,void*data)
+     
+     if (header==NULL){
+       error(0,"Not enough memory for list header allocation\n");
+-      abort();
++      exit(EXIT_FAILURE);
+     }
+     
+     newitem->data=data;
+diff -urp aide.orig/src/util.c aide/src/util.c
+--- aide.orig/src/util.c	2010-04-28 11:17:07.000000000 -0400
++++ aide/src/util.c	2010-04-28 11:21:49.000000000 -0400
+@@ -332,8 +332,7 @@ void sig_handler(int signum)
+       conf->catch_mmap=0;
+     } else {
+       error(0,"Caught SIGBUS/SEGV. Exiting\n");
+-      abort();
+-      exit(1);
++      exit(EXIT_FAILURE);
+     }
+     break;
+   }

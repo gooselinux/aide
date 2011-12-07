@@ -1,0 +1,15 @@
+diff -ur aide.orig/doc/aide.1.in aide/doc/aide.1.in
+--- aide.orig/doc/aide.1.in	2010-02-24 13:53:49.000000000 -0500
++++ aide/doc/aide.1.in	2010-02-24 13:57:44.000000000 -0500
+@@ -75,9 +75,9 @@
+ .SH FILES
+ .B @sysconfdir@/aide.conf
+ Default aide configuration file.
+-.B @sysconfdir@/aide.db
++.B @localstatedir@/lib/aide.db
+ Default aide database.
+-.B @sysconfdir@/aide.db.new
++.B @localstatedir@/lib/aide.db.new
+ Default aide output database.
+ .SH SEE ALSO
+ .BR aide.conf (5)

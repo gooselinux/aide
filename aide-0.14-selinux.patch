@@ -1,0 +1,35 @@
+diff -urp aide-0.14.orig/include/compare_db.h aide-0.14/include/compare_db.h
+--- aide-0.14.orig/include/compare_db.h	2010-05-15 10:15:23.000000000 -0400
++++ aide-0.14/include/compare_db.h	2010-05-15 10:16:05.000000000 -0400
+@@ -48,6 +48,6 @@ void init_rxlst(list* rxlst);
+  * compare_dbline()
+  * Return RETOK if same RETFAIL if not
+  */
+-int compare_dbline(db_line* old,db_line* new,DB_ATTR_TYPE ignorelist);
++DB_ATTR_TYPE compare_dbline(db_line* old,db_line* new,DB_ATTR_TYPE ignorelist);
+ 
+ #endif
+diff -urp aide-0.14.orig/src/aide.c aide-0.14/src/aide.c
+--- aide-0.14.orig/src/aide.c	2010-05-15 10:15:23.000000000 -0400
++++ aide-0.14/src/aide.c	2010-05-15 10:17:32.000000000 -0400
+@@ -246,7 +246,7 @@ void setdefaults_before_config()
+   char* urlstr=INITIALERRORSTO;
+   url_t* u=NULL;
+   char* s=(char*)malloc(sizeof(char)*MAXHOSTNAMELEN+1);
+-  unsigned long long p;
++  DB_ATTR_TYPE p;
+ 
+   /*
+     Set up the hostname
+diff -urp aide-0.14.orig/src/compare_db.c aide-0.14/src/compare_db.c
+--- aide-0.14.orig/src/compare_db.c	2010-05-15 10:15:23.000000000 -0400
++++ aide-0.14/src/compare_db.c	2010-05-15 10:16:42.000000000 -0400
+@@ -275,7 +275,7 @@ static int compare_str(const char *s1, c
+   - ignorelist kertoo mitä ei saa vertailla
+ */
+ 
+-int compare_dbline(db_line* l1,db_line* l2,DB_ATTR_TYPE ignorelist)
++DB_ATTR_TYPE compare_dbline(db_line* l1,db_line* l2,DB_ATTR_TYPE ignorelist)
+ {
+ 
+ #define easy_compare(a,b) \

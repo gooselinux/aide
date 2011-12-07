@@ -1,0 +1,12 @@
+diff -urp aide-0.14.orig/src/compare_db.c aide-0.14/src/compare_db.c
+--- aide-0.14.orig/src/compare_db.c	2010-05-15 10:32:49.000000000 -0400
++++ aide-0.14/src/compare_db.c	2010-05-18 10:47:46.000000000 -0400
+@@ -317,7 +317,7 @@ DB_ATTR_TYPE compare_dbline(db_line* l1,
+   easy_compare(DB_BCOUNT,bcount);
+   
+   if (!(DB_PERM&ignorelist)) {
+-    if(l1->perm!=l2->perm){
++    if (DB_PERM&l1->attr && DB_PERM&l2->attr && l1->perm!=l2->perm) {
+       ret|=DB_PERM;
+     }
+   } else {
